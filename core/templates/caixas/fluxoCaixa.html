@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Formulário da Pessoa{% endblock titulo %}
+
+{% block conteudo %}
+
+<form role="form" method="POST" action="/fluxo/">{% csrf_token %}
+  <div class="row">
+    <div class="col-md-3" style="margin-left: 20px;">
+	    <label> Data Inicial </label>
+      <div class="input-append date datetimepicker" class="form-control">
+        <input type="text" name="dataInicial" id="dataInicial">
+        <span class="add-on">
+          <i data-time-icon="icon-time" data-date-icon="icon-calendar" style="margin-top: -3px;"></i>
+        </span>
+      </div>
+    </div> 
+	<div class="col-md-4">
+	  <label> Data Final </label>
+      <div class="input-append date datetimepicker" class="form-control">
+        <input type="text" name="dataFinal" id="dataFinal">
+        <span class="add-on">
+          <i data-time-icon="icon-time" data-date-icon="icon-calendar" style="margin-top: -3px;"></i>
+        </span>
+      </div>
+    </div>
+  </div> 
+  <div class="row">
+    <div class="col-md-6" style="margin-left: 20px;">
+	  <label> Pessoa </label>
+      <input type="text" name="pessoa" id="pessoa" class="form-control input-sm">
+    </div> 
+	<div class="col-md-2" style="margin-top: 18px;">
+	  <button type="submit" class="btn btn-primary">Calcular</button>
+    </div>
+  </div> 
+</form>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Pessoa</th>
+        <th>Descrição</th>
+        <th>Data</th>
+        <th>Tipo</th>
+        <th>Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for conta in contas %}
+      <tr>
+        <td>{{ conta.pessoa.nome }}</td>
+        <td>{{ conta.descricao }}</td>
+        <td>{{ conta.data|date:"d/m/Y" }}</td>
+        <td>{{ conta.tipo }}</td>
+        <td>R$ {{ conta.valor }}</td>
+      </tr>
+      {% endfor %}  
+     </tbody>
+   </table>
+   <h4 style="text-align: right; margin-right: 110px;">Saldo: R$ {{ total }}</h4>
+ </div>
+
+{% endblock conteudo %}

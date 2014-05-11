@@ -38,7 +38,7 @@
           <ul class="nav navbar-nav">
             <li><a href="/pessoas/"> <spam class="glyphicon glyphicon-user"></spam> Pessoas</a></li>
             <li><a href="/caixas/"> <spam class="glyphicon glyphicon-inbox"></spam> Contas</a></li>
-            <li><a href="#"> <spam class="glyphicon glyphicon-stats"></spam> Fluxo de Caixa</a></li>
+            <li><a href="/fluxo/"> <spam class="glyphicon glyphicon-stats"></spam> Fluxo de Caixa</a></li>
           </ul>
         </div>
       </div>
@@ -54,12 +54,6 @@
       </div>
     <hr>
 
-    <!-- RODAPE -->
-    <footer>
-      <div align="center">&copy; Edson Lopes</div>
-    </footer>
-    <!-- FIM RODAPE -->
-
     <!-- JavaScript -->
     <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
     <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
@@ -67,11 +61,12 @@
     <script src="{{ STATIC_URL }}js/bootstrap-datetimepicker.pt-BR.js"></script>
 
     <script type="text/javascript">
-      $('#datetimepicker').datetimepicker({
-        format: 'dd/MM/yyyy hh:mm:ss',
+      $('.datetimepicker').datetimepicker({
+        format: 'dd/MM/yyyy',
         language: 'pt-BR'
       });
     </script>
+    
 
     <!-- FIM JavaScript -->
     
