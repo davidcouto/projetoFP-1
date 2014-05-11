@@ -81,14 +81,14 @@ def caixaFluxo(request):
         dataFinal = request.POST.get('dataFinal', '')
         total = 0
         try:
-            if pessoa != '':
+            if pessoa != '' and dataInicial == '' and dataFinal == '':
                 sql = ("select cc.* from caixas_conta cc inner join pessoas_pessoa pp on pp.id = cc.pessoa_id where pp.nome like '%s' order by data") % ('%%'+pessoa+'%%')
                 contas = Conta.objects.raw(sql)
             elif dataInicial != '' and dataFinal != '' and pessoa == '':
-                sql = "select cc.* from caixas_conta cc where strftime('%d/%m/%Y', cc.data) between '"+dataInicial+"' and '"+dataFinal+"'"
+                sql = ("select cc.* from caixas_conta cc where strftime('%s', cc.data) between '%s' and '%s' ") % ('%d/%m/%Y', dataInicial, dataFinal)
                 contas = Conta.objects.raw(sql)
             elif dataInicial != '' and dataFinal != '' and pessoa != '':
-                sql = ("select cc.* from caixas_conta cc inner join pessoas_pessoa pp on pp.id = cc.pessoa_id where pp.nome like '%s' and strftime('%d/%m/%Y', cc.data) between '"+dataInicial+"' and '"+dataFinal+"' order by data") % ('%%'+pessoa+'%%')
+                sql = ("select cc.* from caixas_conta cc inner join pessoas_pessoa pp on pp.id = cc.pessoa_id where pp.nome like '%s' and strftime('%s', cc.data) between '%s' and '%s' order by data") % ('%%'+pessoa+'%%', '%d/%m/%Y', dataInicial, dataFinal)
                 contas = Conta.objects.raw(sql)                
             else:
                 contas = []
