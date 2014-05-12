@@ -76,22 +76,12 @@ def caixaExcluir(request, pk=0):
 
 def caixaFluxo(request):
     if request.method == 'POST':
-        pessoa = request.POST.get('pessoa', '').upper()
-        dataInicial = request.POST.get('dataInicial', '')
-        dataFinal = request.POST.get('dataFinal', '')
+        dataInicial = datetime.strptime(request.POST.get('dataInicial', ''), '%d/%m/%Y')
+        dataFinal = datetime.strptime(request.POST.get('dataFinal', ''), '%d/%m/%Y')
         total = 0
         try:
-            if pessoa != '' and dataInicial == '' and dataFinal == '':
-                sql = ("select cc.* from caixas_conta cc inner join pessoas_pessoa pp on pp.id = cc.pessoa_id where pp.nome like '%s' order by data") % ('%%'+pessoa+'%%')
-                contas = Conta.objects.raw(sql)
-            elif dataInicial != '' and dataFinal != '' and pessoa == '':
-                sql = ("select cc.* from caixas_conta cc where strftime('%s', cc.data) between '%s' and '%s' ") % ('%d/%m/%Y', dataInicial, dataFinal)
-                contas = Conta.objects.raw(sql)
-            elif dataInicial != '' and dataFinal != '' and pessoa != '':
-                sql = ("select cc.* from caixas_conta cc inner join pessoas_pessoa pp on pp.id = cc.pessoa_id where pp.nome like '%s' and strftime('%s', cc.data) between '%s' and '%s' order by data") % ('%%'+pessoa+'%%', '%d/%m/%Y', dataInicial, dataFinal)
-                contas = Conta.objects.raw(sql)                
-            else:
-                contas = []
+            if dataInicial != '' and dataFinal != '':
+                contas = Conta.objects.filter(data__range=(dataInicial,dataFinal))              
             for conta in contas:
                 if conta.tipo == 'E':
                     total += conta.valor
