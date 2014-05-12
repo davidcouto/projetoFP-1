@@ -4,6 +4,14 @@
 
 {% block conteudo %}
 
+<style type="text/css">
+@media print {
+  .row, hr {
+    display: none;
+  }
+}
+</style>
+
 <form role="form" method="POST" action="/fluxo/">{% csrf_token %}
   <div class="row">
     <div class="col-md-3" style="margin-left: 20px;">
@@ -25,7 +33,8 @@
       </div>
     </div>
     <div class="col-md-2" style="margin-top: 18px;">
-      <button type="submit" class="btn btn-primary">Calcular</button>
+      <button type="submit" class="btn btn-success" style="margin-right: 10px;">Calcular</button>
+      <button type="button" onclick="window.print()" class="btn btn-primary">Imprimir</button>
     </div>
   </div>  
 </form>
@@ -52,7 +61,7 @@
       {% endfor %}  
      </tbody>
    </table>
-   <h4 style="text-align: right; margin-right: 110px;">Saldo: R$ {{ total }}</h4>
+   <h4 style="text-align: right; margin-right: 110px;" id="saldo" >Saldo: R$ {{ total }}</h4>
  </div>
 
 {% endblock conteudo %}
