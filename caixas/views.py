@@ -75,10 +75,12 @@ def caixaExcluir(request, pk=0):
 
 
 def caixaFluxo(request):
+    imprimir = False
     if request.method == 'POST':
         dataInicial = datetime.strptime(request.POST.get('dataInicial', ''), '%d/%m/%Y')
         dataFinal = datetime.strptime(request.POST.get('dataFinal', ''), '%d/%m/%Y')
         total = 0
+        imprimir = True               
         try:
             if dataInicial != '' and dataFinal != '':
                 contas = Conta.objects.filter(data__range=(dataInicial,dataFinal))              
@@ -86,12 +88,12 @@ def caixaFluxo(request):
                 if conta.tipo == 'E':
                     total += conta.valor
                 elif conta.tipo == 'S':
-                    total -= conta.valor                
+                    total -= conta.valor 
         except:
             contas = []
-        return render(request, 'caixas/fluxoCaixa.html', {'contas': contas, 'total': total})
+        return render(request, 'caixas/fluxoCaixa.html', {'contas': contas, 'total': total, 'imprimir': imprimir})
     else:   
-        return render(request, 'caixas/fluxoCaixa.html')
+        return render(request, 'caixas/fluxoCaixa.html', {'imprimir': imprimir})
 
 
 

@@ -34,7 +34,9 @@
     </div>
     <div class="col-md-2" style="margin-top: 18px;">
       <button type="submit" class="btn btn-success" style="margin-right: 10px;">Calcular</button>
+      {% if imprimir == True %}
       <button type="button" onclick="window.print()" class="btn btn-primary">Imprimir</button>
+      {% endif %}
     </div>
   </div>  
 </form>
