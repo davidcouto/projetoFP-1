@@ -76,24 +76,31 @@ def caixaExcluir(request, pk=0):
 
 def caixaFluxo(request):
     imprimir = False
+    alerta = False
     if request.method == 'POST':
-        dataInicial = datetime.strptime(request.POST.get('dataInicial', ''), '%d/%m/%Y')
-        dataFinal = datetime.strptime(request.POST.get('dataFinal', ''), '%d/%m/%Y')
+        dataInicial = request.POST.get('dataInicial', '')
+        dataFinal = request.POST.get('dataFinal', '')
         total = 0
-        imprimir = True               
+                      
         try:
             if dataInicial != '' and dataFinal != '':
-                contas = Conta.objects.filter(data__range=(dataInicial,dataFinal))              
-            for conta in contas:
+                dataInicial = datetime.strptime(request.POST.get('dataInicial', ''), '%d/%m/%Y')
+                dataFinal = datetime.strptime(request.POST.get('dataFinal', ''), '%d/%m/%Y')
+                contas = Conta.objects.filter(data__range=(dataInicial,dataFinal)) 
+            else :
+                alerta = True             
+            for conta in contas: 
                 if conta.tipo == 'E':
                     total += conta.valor
                 elif conta.tipo == 'S':
-                    total -= conta.valor 
+                    total -= conta.valor
+            if total != 0 :
+                imprimir = True 
         except:
             contas = []
-        return render(request, 'caixas/fluxoCaixa.html', {'contas': contas, 'total': total, 'imprimir': imprimir})
+        return render(request, 'caixas/fluxoCaixa.html', {'contas': contas, 'total': total, 'imprimir': imprimir, 'alerta': alerta})
     else:   
-        return render(request, 'caixas/fluxoCaixa.html', {'imprimir': imprimir})
+        return render(request, 'caixas/fluxoCaixa.html', {'imprimir': imprimir, 'alerta': alerta})
 
 
 

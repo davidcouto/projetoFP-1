@@ -13,6 +13,9 @@
 </style>
 
 <form role="form" method="POST" action="/fluxo/">{% csrf_token %}
+  {% if alerta == True %}
+     <div class="alert alert-danger">Informe duas datas!</div>
+  {% endif %}
   <div class="row">
     <div class="col-md-3" style="margin-left: 20px;">
 	    <label> Data Inicial </label>
